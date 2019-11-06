@@ -115,7 +115,7 @@ def timeline():
         [session['user_id'], session['user_id'], PER_PAGE]))
 
 
-@app.route('/public')
+@app.route('/public-yue')
 def public_timeline():
     """Displays the latest messages of all users."""
     return render_template('timeline.html', messages=query_db('''
