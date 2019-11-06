@@ -116,7 +116,7 @@ def test_timelines(client):
     logout(client)
     register_and_login(client, 'bar', 'default')
     add_message(client, 'the message by bar')
-    rv = client.get('/public')
+    rv = client.get('/public-yue')
     assert b'the message by foo' in rv.data
     assert b'the message by bar' in rv.data
 
