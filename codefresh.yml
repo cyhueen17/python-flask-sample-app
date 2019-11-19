@@ -34,11 +34,11 @@ steps:
     candidate: '${{MyAppDockerImage}}'
     image_name: cyhueen17/pythonflasksampleapp #Change kkapelon to your dockerhub username
     registry: dockerhub # Name of your integration as was defined in the Registry screen
-  MyDeployStep:
-    stage: deploy
-    image: codefreshplugins/cf-deploy-ecs
-    commands:
-      - cfecs-update ${{REGION}} ${{ECS_CLUSTER_NAME}} ${{ECS_SERVICE_NAME}}
-    environment:
-      - AWS_ACCESS_KEY_ID=${{AWS_ACCESS_KEY_ID}}
-      - AWS_SECRET_ACCESS_KEY=${{AWS_SECRET_ACCESS_KEY}}
+#  MyDeployStep:
+#    stage: deploy
+#    image: codefreshplugins/cf-deploy-ecs
+#    commands:
+#      - cfecs-update ${{REGION}} ${{ECS_CLUSTER_NAME}} ${{ECS_SERVICE_NAME}}
+#    environment:
+#      - AWS_ACCESS_KEY_ID=${{AWS_ACCESS_KEY_ID}}
+#      - AWS_SECRET_ACCESS_KEY=${{AWS_SECRET_ACCESS_KEY}}
