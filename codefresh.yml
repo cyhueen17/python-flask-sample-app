@@ -1,26 +1,44 @@
 version: '1.0'
 stages:
-  - prepare
-  - build
+  - checkout
+  - package
   - test
+  - upload
+  - deploy
 steps:
   main_clone:
     title: Cloning main repository...
     type: git-clone
     repo: '${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}'
     revision: '${{CF_REVISION}}'
-    stage: prepare
+    stage: checkout
   MyAppDockerImage:
     title: Building Docker Image
     type: build
-    stage: build
+    stage: package
     image_name: my-app-image
     working_directory: ./
-    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
+    tag: v1.0.1
     dockerfile: Dockerfile
   MyUnitTests:
     title: Running Unit tests
-    stage: test
     image: '${{MyAppDockerImage}}'
+    stage: test 
     commands:
-      - python setup.py test
+      - python setup.py test    
+  MyPushStep:
+    title: Pushing to Docker Registry
+    type: push
+    stage: upload
+    tag: '${{CF_BRANCH}}'
+    candidate: '${{MyAppDockerImage}}'
+    image_name: cyhueen17/pythonflasksampleapp #Change kkapelon to your dockerhub username
+    registry: dockerhub # Name of your integration as was defined in the Registry screen
+  MyDeployStep:
+    stage: deploy
+    image: codefreshplugins/cf-deploy-ecs
+    commands:
+      - cfecs-update ${{REGION}} ${{ECS_CLUSTER_NAME}} ${{ECS_SERVICE_NAME}}
+    environment:
+      - AWS_ACCESS_KEY_ID=${{AWS_ACCESS_KEY_ID}}
+      - AWS_SECRET_ACCESS_KEY=${{AWS_SECRET_ACCESS_KEY}}
