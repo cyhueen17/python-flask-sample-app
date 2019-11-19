@@ -30,7 +30,7 @@ steps:
     title: Pushing to Docker Registry
     type: push
     stage: upload
-    tag: '${{CF_BRANCH}}'
+    tag: '${{CF_SHORT_REVISION}}'
     candidate: '${{MyAppDockerImage}}'
     image_name: cyhueen17/pythonflasksampleapp #Change kkapelon to your dockerhub username
     registry: dockerhub # Name of your integration as was defined in the Registry screen
